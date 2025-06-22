@@ -64,6 +64,9 @@ class OrderController extends AbstractController {
 			throw new \LogicException('Nothing to checkout!');
 		}
 
+		$products = $cart->getProducts();
+		$variantId = $products[0]->getLsVariantId();
+
 		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
@@ -78,7 +81,7 @@ class OrderController extends AbstractController {
 						'variant' => [
 							'data' => [
 								'type' => 'variants',
-								'id' => '862150'
+								'id' => $variantId
 							]
 						]
 					]
