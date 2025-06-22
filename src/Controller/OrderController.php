@@ -72,7 +72,7 @@ class OrderController extends AbstractController {
 						'store' => [
 							'data' => [
 								'type' => 'stores',
-								'id' => '192797'
+								'id' => $this->getParameter('env(LEMON_SQUEEZY_STORE_ID)')
 							]
 						],
 						'variant' => [
