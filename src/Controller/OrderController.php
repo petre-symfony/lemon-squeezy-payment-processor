@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\User;
 use App\Store\ShoppingCart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OrderController extends AbstractController {
@@ -52,14 +54,15 @@ class OrderController extends AbstractController {
 	public function checkout(
 		#[Target('lemonSqueezyClient')]
 		HttpClientInterface $lsClient,
-		ShoppingCart $cart
+		ShoppingCart $cart,
+		#[CurrentUser] ?User $user
 	): Response {
-		$lsCheckoutUrl = $this->createCheckoutUrl($lsClient, $cart);
+		$lsCheckoutUrl = $this->createCheckoutUrl($lsClient, $cart, $user);
 
 		return $this->redirect($lsCheckoutUrl);
 	}
 
-	private function createCheckoutUrl(HttpClientInterface $lsClient, ShoppingCart $cart) {
+	private function createCheckoutUrl(HttpClientInterface $lsClient, ShoppingCart $cart, ?User $user) {
 		if ($cart->isEmpty()) {
 			throw new \LogicException('Nothing to checkout!');
 		}
@@ -68,20 +71,28 @@ class OrderController extends AbstractController {
 		$variantId = $products[0]->getLsVariantId();
 		$quantity = $cart->getProductQuantity($products[0]);
 
+		$attributes = [
+			'checkout_data' => [
+				'variant_quantities' => [
+					[
+						'variant_id' => $variantId,
+						'quantity' => $quantity
+					]
+				]
+			]
+		];
+
+		if ($user) {
+			$attributes['checkout_data']['email'] = $user->getEmail();
+			$attributes['checkout_data']['name'] = $user->getFirstName();
+		}
+
+
 		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
 					'type' => 'checkouts',
-					'attributes' => [
-						'checkout_data' => [
-							'variant_quantities' => [
-								[
-									'variant_id' => $variantId,
-									'quantity' => $quantity
-								]
-							]
-						]
-					],
+					'attributes' => $attributes,
 					'relationships' => [
 						'store' => [
 							'data' => [
