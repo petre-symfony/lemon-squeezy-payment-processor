@@ -67,13 +67,27 @@ class OrderController extends AbstractController {
 		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
-					'type' => 'checkouts'
+					'type' => 'checkouts',
+					'relationships' => [
+						'store' => [
+							'data' => [
+								'type' => 'stores',
+								'id' => '192797'
+							]
+						],
+						'variant' => [
+							'data' => [
+								'type' => 'variants',
+								'id' => '862150'
+							]
+						]
+					]
 				]
 			]
 		]);
 
 		dd($response->getContent(false));
-		
+
 		$lsCheckout = $response->toArray();
 
 		return $lsCheckout['data']['attributes']['url'];
