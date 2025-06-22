@@ -86,8 +86,6 @@ class OrderController extends AbstractController {
 			]
 		]);
 
-		dd($response->getContent(false));
-
 		$lsCheckout = $response->toArray();
 
 		return $lsCheckout['data']['attributes']['url'];
