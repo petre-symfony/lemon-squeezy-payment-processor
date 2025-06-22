@@ -66,11 +66,22 @@ class OrderController extends AbstractController {
 
 		$products = $cart->getProducts();
 		$variantId = $products[0]->getLsVariantId();
+		$quantity = $cart->getProductQuantity($products[0]);
 
 		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
 					'type' => 'checkouts',
+					'attributes' => [
+						'checkout_data' => [
+							'variant_quantities' => [
+								[
+									'variant_id' => $variantId,
+									'quantity' => $quantity
+								]
+							]
+						]
+					],
 					'relationships' => [
 						'store' => [
 							'data' => [
