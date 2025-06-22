@@ -45,4 +45,9 @@ class OrderController extends AbstractController {
 
 		return $this->redirectToRoute('app_order_cart');
 	}
+
+	#[Route('/checkout', name: 'app_order_checkout')]
+	public function checkout(): Response {
+
+	}
 }
