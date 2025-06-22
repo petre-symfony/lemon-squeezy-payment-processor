@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OrderController extends AbstractController {
 	#[Route('/cart', name: 'app_order_cart')]
@@ -47,7 +48,19 @@ class OrderController extends AbstractController {
 	}
 
 	#[Route('/checkout', name: 'app_order_checkout')]
-	public function checkout(): Response {
+	public function checkout(
+		HttpClientInterface $lsClient,
+		ShoppingCart $cart
+	): Response {
+		$lsCheckoutUrl = $this->createCheckoutUrl($lsClient, $cart);
+
+		return $this->redirect($lsCheckoutUrl);
+	}
+
+	private function createCheckoutUrl(HttpClientInterface $lsClient, ShoppingCart $cart) {
+		if ($cart->isEmpty()) {
+			throw new \LogicException('Nothing to checkout!');
+		}
 
 	}
 }
