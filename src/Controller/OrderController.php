@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Store\ShoppingCart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -49,6 +50,7 @@ class OrderController extends AbstractController {
 
 	#[Route('/checkout', name: 'app_order_checkout')]
 	public function checkout(
+		#[Target('lemonSqueezyClient')]
 		HttpClientInterface $lsClient,
 		ShoppingCart $cart
 	): Response {
