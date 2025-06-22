@@ -62,5 +62,16 @@ class OrderController extends AbstractController {
 			throw new \LogicException('Nothing to checkout!');
 		}
 
+		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
+			'json' => [
+				'data' => [
+					'type' => 'checkouts'
+				]
+			]
+		]);
+
+		$lsCheckout = $response->toArray();
+
+		return $lsCheckout['data']['attributes']['url'];
 	}
 }
