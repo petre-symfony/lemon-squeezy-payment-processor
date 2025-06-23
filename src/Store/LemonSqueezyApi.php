@@ -3,6 +3,7 @@
 namespace App\Store;
 
 use App\Entity\User;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -12,7 +13,10 @@ final readonly class LemonSqueezyApi {
 	public function __construct(
 		#[Target('lemonSqueezyClient')]
 		private HttpClientInterface $client,
-		private ShoppingCart $cart
+		private ShoppingCart $cart,
+		private UrlGeneratorInterface $urlGenerator,
+		#[Autowire('%env(LEMON_SQUEEZY_STORE_ID)%')]
+		private string $storeId
 	) {
 	}
 
@@ -53,7 +57,7 @@ final readonly class LemonSqueezyApi {
 		}
 
 		$attributes['product_options']['redirect_url'] =
-			$this->generateUrl('app_order_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
+			$this->urlGenerator->generate('app_order_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
 		$response = $this->client->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
@@ -64,7 +68,7 @@ final readonly class LemonSqueezyApi {
 						'store' => [
 							'data' => [
 								'type' => 'stores',
-								'id' => $this->getParameter('env(LEMON_SQUEEZY_STORE_ID)')
+								'id' => $this->storeId
 							]
 						],
 						'variant' => [
