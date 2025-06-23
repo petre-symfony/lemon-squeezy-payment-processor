@@ -86,4 +86,11 @@ final readonly class LemonSqueezyApi {
 
 		return $lsCheckout['data']['attributes']['url'];
 	}
+
+	public function retrieveStoreUrl(): string {
+		$response = $this->client->request(Request::METHOD_GET, 'stores/' . $this->storeId);
+		$lsStore = $response->toArray();
+
+		return $lsStore['data']['attributes']['url'];
+	}
 }
