@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\User;
+use App\Store\LemonSqueezyApi;
 use App\Store\ShoppingCart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Target;
@@ -53,12 +54,10 @@ class OrderController extends AbstractController {
 
 	#[Route('/checkout', name: 'app_order_checkout')]
 	public function checkout(
-		#[Target('lemonSqueezyClient')]
-		HttpClientInterface $lsClient,
-		ShoppingCart $cart,
+		LemonSqueezyApi $lsApi,
 		#[CurrentUser] ?User $user
 	): Response {
-		$lsCheckoutUrl = $this->createCheckoutUrl($lsClient, $cart, $user);
+		$lsCheckoutUrl = $lsApi->createCheckoutUrl($user);
 
 		return $this->redirect($lsCheckoutUrl);
 	}
