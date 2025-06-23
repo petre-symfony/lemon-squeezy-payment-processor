@@ -62,6 +62,27 @@ class OrderController extends AbstractController {
 		return $this->redirect($lsCheckoutUrl);
 	}
 
+	#[Route('/checkout/success', name: 'app_order_success')]
+	public function success(
+		Request $request,
+		ShoppingCart $cart
+	): Response {
+		$referer = $request->headers->get('referer');
+		$lsStoreUrl = 'https://petrero.lemonsqueezy.com/';
+
+		if (!str_starts_with($referer, $lsStoreUrl)) {
+			return $this->redirectToRoute('app_homepage');
+		}
+		if ($cart->isEmpty()) {
+			return  $this->redirectToRoute('app_homepage');
+		}
+
+		$cart->clear();
+		$this->addFlash('success', 'Thanks for your order!');
+
+		return $this->redirectToRoute('app_homepage');
+	}
+
 	private function createCheckoutUrl(HttpClientInterface $lsClient, ShoppingCart $cart, ?User $user) {
 		if ($cart->isEmpty()) {
 			throw new \LogicException('Nothing to checkout!');
