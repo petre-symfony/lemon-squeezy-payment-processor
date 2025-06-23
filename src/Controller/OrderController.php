@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -118,6 +119,9 @@ class OrderController extends AbstractController {
 				'description' => $description
 			];
 		}
+
+		$attributes['product_options']['redirect_url'] =
+			$this->generateUrl('app_order_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
 		$response = $lsClient->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
