@@ -65,10 +65,11 @@ class OrderController extends AbstractController {
 	#[Route('/checkout/success', name: 'app_order_success')]
 	public function success(
 		Request $request,
-		ShoppingCart $cart
+		ShoppingCart $cart,
+		LemonSqueezyApi $lsApi
 	): Response {
 		$referer = $request->headers->get('referer');
-		$lsStoreUrl = 'https://petrero.lemonsqueezy.com/';
+		$lsStoreUrl = $lsApi->retrieveStoreUrl();
 
 		if (!str_starts_with($referer, $lsStoreUrl)) {
 			return $this->redirectToRoute('app_homepage');
