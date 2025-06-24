@@ -3,4 +3,4 @@ framework:
     routing:
       lemon-squeezy:
         service: App\Webhook\LemonSqueezyRequestParser
-        secret: your_secret_here
+        secret: '%env(LEMON_SQUEEZY_SIGNING_SECRET)%'
