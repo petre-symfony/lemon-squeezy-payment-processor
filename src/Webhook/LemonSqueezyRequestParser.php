@@ -27,29 +27,27 @@ final class LemonSqueezyRequestParser extends AbstractRequestParser {
 	 * @throws JsonException
 	 */
 	protected function doParse(Request $request, #[\SensitiveParameter] string $secret): ?RemoteEvent {
-		// TODO: Adapt or replace the content of this method to fit your need.
+		$this->verifySignature($request, $secret);
 
-		// Validate the request against $secret.
-		$authToken = $request->headers->get('X-Authentication-Token');
+		$payload = $request->toArray();
+		$eventName = $payload['meta']['event_name'];
+		$webhookId = $payload['meta']['webhook_id'];
 
-		if ($authToken !== $secret) {
-			throw new RejectWebhookException(Response::HTTP_UNAUTHORIZED, 'Invalid authentication token.');
+		if(!$eventName || !$webhookId) {
+			throw new RejectWebhookException(
+				Response::HTTP_BAD_REQUEST,
+				'Request payload does not contain required fields'
+			);
 		}
 
-		// Validate the request payload.
-		if (!$request->getPayload()->has('name')
-			|| !$request->getPayload()->has('id')) {
-			throw new RejectWebhookException(Response::HTTP_BAD_REQUEST, 'Request payload does not contain required fields.');
+		if ($eventName !== 'order_created') {
+			throw new RejectWebhookException(
+				Response::HTTP_BAD_REQUEST,
+				sprintf('Unsupported event type %s', $eventName)
+			);
 		}
 
-		// Parse the request payload and return a RemoteEvent object.
-		$payload = $request->getPayload();
-
-		return new RemoteEvent(
-			$payload->getString('name'),
-			$payload->getString('id'),
-			$payload->all(),
-		);
+		return new RemoteEvent($eventName, $webhookId, $payload);
 	}
 
 	private function verifySignature(Request $request, string $secret): void {
