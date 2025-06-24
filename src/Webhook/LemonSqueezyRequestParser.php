@@ -17,8 +17,8 @@ use Symfony\Component\Webhook\Exception\RejectWebhookException;
 final class LemonSqueezyRequestParser extends AbstractRequestParser {
 	protected function getRequestMatcher(): RequestMatcherInterface {
 		return new ChainRequestMatcher([
-			new PathRequestMatcher('regex'),
-			new MethodRequestMatcher('POST'),
+			new PathRequestMatcher('/webhook/lemon-squeezy'),
+			new MethodRequestMatcher(Request::METHOD_POST),
 			new IsJsonRequestMatcher(),
 		]);
 	}
@@ -51,4 +51,16 @@ final class LemonSqueezyRequestParser extends AbstractRequestParser {
 			$payload->all(),
 		);
 	}
+
+	private function verifySignature(Request $request, string $secret): void {
+		$payload = $request->getContent();
+		$hash = hash_hmac('sha256', $payload, $secret);
+		$signature = $request->headers->get('X-Signature', '');
+
+		if (hash_equals($hash,$signature)) {
+			return;
+		}
+
+		throw new RejectWebhookException(Response::HTTP_UNAUTHORIZED, 'Invalid LemonSqueezy Signature');
+ 	}
 }
