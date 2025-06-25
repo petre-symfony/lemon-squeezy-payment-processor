@@ -19,8 +19,10 @@ class LemonSqueezyRequestParserTest extends WebTestCase {
 		]);
 
 		$json = file_get_contents(__DIR__ . '/../Fixtures/order_created.json');
-
-		$client->request('POST', '/webhook/lemon-squeezy', [], [], [], $json);
+		$hash = hash_hmac('sha256', $json, $_ENV['LEMON_SQUEEZY_SIGNING_SECRET']);
+		$client->request('POST', '/webhook/lemon-squeezy', [], [], [
+			'HTTP_X-Signature' => $hash
+		], $json);
 
 		$this->assertResponseIsSuccessful('Webhook failed!');
 		$this->assertNotNull($user->getLsCustomerId(), 'LemonSqueezy customer id not set');
