@@ -55,7 +55,7 @@ class OrderController extends AbstractController {
 	#[Route('/checkout', name: 'app_order_checkout')]
 	public function checkout(
 		LemonSqueezyApi $lsApi,
-		#[CurrentUser] ?User $user
+		#[CurrentUser] User $user
 	): Response {
 		$lsCheckoutUrl = $lsApi->createCheckoutUrl($user);
 
