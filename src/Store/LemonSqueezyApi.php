@@ -81,6 +81,8 @@ final readonly class LemonSqueezyApi {
 			]
 		]);
 
+		dd($response->getContent(false));
+
 		$lsCheckout = $response->toArray();
 
 		return $lsCheckout['data']['attributes']['url'];
