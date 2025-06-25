@@ -19,6 +19,10 @@ class LemonSqueezyRequestParserTest extends WebTestCase {
 		]);
 
 		$json = file_get_contents(__DIR__ . '/../Fixtures/order_created.json');
+		$json = strtr($json, [
+			'%user_id%' => $user->getId(),
+			'%customer_id%' => 6118393
+		]);
 		$hash = hash_hmac('sha256', $json, $_ENV['LEMON_SQUEEZY_SIGNING_SECRET']);
 		$client->request('POST', '/webhook/lemon-squeezy', [], [], [
 			'HTTP_X-Signature' => $hash

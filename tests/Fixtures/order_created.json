@@ -27,7 +27,7 @@
       "identifier": "12774de2-8a07-4a91-bd9e-e52a665f9c41",
       "updated_at": "2025-06-24T09:42:08.000000Z",
       "user_email": "lemon@example.com",
-      "customer_id": 6118393,
+      "customer_id": %customer_id%,
       "refunded_at": null,
       "order_number": 1927979,
       "subtotal_usd": 229,
@@ -104,7 +104,7 @@
     "event_name": "order_created",
     "webhook_id": "78d28f7f-9c5f-440c-b714-ac34b279ea6e",
     "custom_data": {
-      "user_id": "2"
+      "user_id": "%user_id%"
     }
   }
 }
