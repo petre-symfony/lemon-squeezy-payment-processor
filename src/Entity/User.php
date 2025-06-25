@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 	#[Assert\NotBlank]
 	private ?string $firstName = null;
 
+  #[ORM\Column(length: 255, unique: true, nullable: true)]
+	private ?string $lsCustomerId = null;
+
 	public function getId(): ?int {
 		return $this->id;
 	}
@@ -123,6 +126,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
 
 	public function setFirstName(string $firstName): static {
 		$this->firstName = $firstName;
+
+		return $this;
+	}
+
+	public function getLsCustomerId(): ?string {
+		return $this->lsCustomerId;
+	}
+
+	public function setLsCustomerId(?string $lsCustomerId): static {
+		$this->lsCustomerId = $lsCustomerId;
 
 		return $this;
 	}
