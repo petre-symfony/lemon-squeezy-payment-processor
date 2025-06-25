@@ -40,4 +40,9 @@ final class LemonSqueezyWebhookConsumer implements ConsumerInterface {
 			default => throw new \LogicException('Unsupported LemonSqueezy event: "%s"', $event->getId())
 		};
 	}
+
+	private function handleOrderCreatedEvent(RemoteEvent $event, User $user): void {
+		$payload = $event->getPayload();
+		$customerId = $payload['data']['attributes']['customer_id'];
+	}
 }
