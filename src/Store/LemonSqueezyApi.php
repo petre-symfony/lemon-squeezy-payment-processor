@@ -20,7 +20,7 @@ final readonly class LemonSqueezyApi {
 	) {
 	}
 
-	public function createCheckoutUrl(?User $user) {
+	public function createCheckoutUrl(User $user) {
 		if ($this->cart->isEmpty()) {
 			throw new \LogicException('Nothing to checkout!');
 		}
@@ -29,11 +29,8 @@ final readonly class LemonSqueezyApi {
 		$variantId = $products[0]->getLsVariantId();
 
 		$attributes = [];
-
-		if ($user) {
-			$attributes['checkout_data']['email'] = $user->getEmail();
-			$attributes['checkout_data']['name'] = $user->getFirstName();
-		}
+		$attributes['checkout_data']['email'] = $user->getEmail();
+		$attributes['checkout_data']['name'] = $user->getFirstName();
 
 		if (count($products) === 1) {
 			$attributes['checkout_data']['variant_quantities'] = [
