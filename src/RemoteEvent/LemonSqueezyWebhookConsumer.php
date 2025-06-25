@@ -44,5 +44,9 @@ final class LemonSqueezyWebhookConsumer implements ConsumerInterface {
 	private function handleOrderCreatedEvent(RemoteEvent $event, User $user): void {
 		$payload = $event->getPayload();
 		$customerId = $payload['data']['attributes']['customer_id'];
+
+		$user->setLsCustomerId($customerId);
+
+		$this->entityManager->flush();
 	}
 }
