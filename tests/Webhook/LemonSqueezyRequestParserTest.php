@@ -12,14 +12,18 @@ class LemonSqueezyRequestParserTest extends WebTestCase {
 	public function testOrderCreatedWebhook(): void {
 		$client = static::createClient();
 
-		UserFactory::new()->create([
+		$user = UserFactory::new()->create([
 			'email' => 'test@example.com',
 			'plainPassword' => 'testpass',
 			'firstName' => 'Test'
 		]);
 
-		$crawler = $client->request('POST', '/webhook/lemon-squeezy', [], [], [], $json);
+		$json = file_get_contents(__DIR__ . '/../Fixtures/order_created.json');
+
+		$client->request('POST', '/webhook/lemon-squeezy', [], [], [], $json);
 
 		$this->assertResponseIsSuccessful('Webhook failed!');
+		$this->assertNotNull($user->getLsCustomerId(), 'LemonSqueezy customer id not set');
+		$this->assertEquals(6118393, $user->getLsCustomerId(), "LemonSqueezy customer id mismatch");
 	}
 }

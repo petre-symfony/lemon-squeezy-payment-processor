@@ -1,0 +1,110 @@
+{
+  "data": {
+    "id": "5795723",
+    "type": "orders",
+    "links": {
+      "self": "https://api.lemonsqueezy.com/v1/orders/5795723"
+    },
+    "attributes": {
+      "tax": 0,
+      "urls": {
+        "receipt": "https://app.lemonsqueezy.com/my-orders/12774de2-8a07-4a91-bd9e-e52a665f9c41?expires=1750779728&signature=e875b059a38256c5d93954d112b1109f07ccbf48ffd3971d7afac6e0a737b6cc"
+      },
+      "total": 997,
+      "status": "paid",
+      "tax_usd": 0,
+      "currency": "RON",
+      "refunded": false,
+      "store_id": 192797,
+      "subtotal": 997,
+      "tax_name": "Sales Tax",
+      "tax_rate": 0,
+      "setup_fee": 0,
+      "test_mode": true,
+      "total_usd": 229,
+      "user_name": "Lemon",
+      "created_at": "2025-06-24T09:42:07.000000Z",
+      "identifier": "12774de2-8a07-4a91-bd9e-e52a665f9c41",
+      "updated_at": "2025-06-24T09:42:08.000000Z",
+      "user_email": "lemon@example.com",
+      "customer_id": 6118393,
+      "refunded_at": null,
+      "order_number": 1927979,
+      "subtotal_usd": 229,
+      "currency_rate": "0.22963694",
+      "setup_fee_usd": 0,
+      "tax_formatted": "RON0.00",
+      "tax_inclusive": false,
+      "discount_total": 0,
+      "refunded_amount": 0,
+      "total_formatted": "RON9.97",
+      "first_order_item": {
+        "id": 5732863,
+        "price": 999,
+        "order_id": 5795723,
+        "price_id": 1336653,
+        "quantity": 1,
+        "test_mode": true,
+        "created_at": "2025-06-24T09:42:08.000000Z",
+        "product_id": 557059,
+        "updated_at": "2025-06-24T09:42:08.000000Z",
+        "variant_id": 865238,
+        "product_name": "Strawberry E-lemonade",
+        "variant_name": "Default"
+      },
+      "status_formatted": "Paid",
+      "discount_total_usd": 0,
+      "subtotal_formatted": "RON9.97",
+      "refunded_amount_usd": 0,
+      "setup_fee_formatted": "RON0.00",
+      "discount_total_formatted": "RON0.00",
+      "refunded_amount_formatted": "RON0.00"
+    },
+    "relationships": {
+      "store": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/store",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/store"
+        }
+      },
+      "customer": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/customer",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/customer"
+        }
+      },
+      "order-items": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/order-items",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/order-items"
+        }
+      },
+      "license-keys": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/license-keys",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/license-keys"
+        }
+      },
+      "subscriptions": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/subscriptions",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/subscriptions"
+        }
+      },
+      "discount-redemptions": {
+        "links": {
+          "self": "https://api.lemonsqueezy.com/v1/orders/5795723/relationships/discount-redemptions",
+          "related": "https://api.lemonsqueezy.com/v1/orders/5795723/discount-redemptions"
+        }
+      }
+    }
+  },
+  "meta": {
+    "test_mode": true,
+    "event_name": "order_created",
+    "webhook_id": "78d28f7f-9c5f-440c-b714-ac34b279ea6e",
+    "custom_data": {
+      "user_id": "2"
+    }
+  }
+}
