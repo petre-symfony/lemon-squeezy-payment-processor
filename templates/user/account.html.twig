@@ -47,15 +47,16 @@
           </tbody>
         </table>
       </div>
-      <p>
-        <a
-            href="https://app.lemonsqueezy.com/my-orders/{{ (orders.data|first).attributes.identifier|default('') }}"
-            target="_blank"
-        >
-          More Orders
-        </a>
-      </p>
-
+      {% if orders.meta.page.total > orders.meta.page.perPage %}
+        <p>
+          <a
+              href="https://app.lemonsqueezy.com/my-orders/{{ (orders.data|first).attributes.identifier|default('') }}"
+              target="_blank"
+          >
+            More Orders
+          </a>
+        </p>
+      {% endif %}
     {% else %}
       <div class="rounded-2xl py-7 px-7 border-2 border-[#4F272B] w-[450px] mt-7 flex flex-col justify-center">
         <p class="text-center mb-5 poppins-regular text-lg">No orders yet</p>
