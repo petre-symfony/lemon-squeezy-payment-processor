@@ -33,7 +33,7 @@ final readonly class LemonSqueezyApi {
 		$attributes['checkout_data']['email'] = $user->getEmail();
 		$attributes['checkout_data']['name'] = $user->getFirstName();
 
-		$attributes['checkout_data']['custom']['user_id'] = $user->getId();
+		$attributes['checkout_data']['custom']['user_id'] = (string) $user->getId();
 
 		if (count($products) === 1) {
 			$attributes['checkout_data']['variant_quantities'] = [
@@ -59,7 +59,7 @@ final readonly class LemonSqueezyApi {
 		$attributes['product_options']['redirect_url'] =
 			$this->urlGenerator->generate('app_order_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-		$response = $this->request(Request::METHOD_POST, 'checkouts', [
+		$lsCheckout = $this->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
 					'type' => 'checkouts',
@@ -81,8 +81,6 @@ final readonly class LemonSqueezyApi {
 				]
 			]
 		]);
-
-		$lsCheckout = $response->toArray();
 
 		return $lsCheckout['data']['attributes']['url'];
 	}
