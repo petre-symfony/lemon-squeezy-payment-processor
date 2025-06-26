@@ -86,8 +86,7 @@ final readonly class LemonSqueezyApi {
 	}
 
 	public function retrieveStoreUrl(): string {
-		$response = $this->client->request(Request::METHOD_GET, 'stores/' . $this->storeId);
-		$lsStore = $response->toArray();
+		$lsStore = $this->request(Request::METHOD_GET, 'stores/' . $this->storeId);
 
 		return $lsStore['data']['attributes']['url'];
 	}
@@ -99,7 +98,7 @@ final readonly class LemonSqueezyApi {
 		}
 		$lsCustomer = $this->retrieveCustomer($lsCustomerId);
 
-		$response = $this->client->request(Request::METHOD_GET, 'orders', [
+		$response = $this->request(Request::METHOD_GET, 'orders', [
 			'query' => [
 				'filter' => [
 					'store_id' => $this->storeId,
@@ -110,14 +109,10 @@ final readonly class LemonSqueezyApi {
 				]
 			]
 		]);
-
-		return $response->toArray();
 	}
 
 	public function retrieveCustomer(string $customerId): array {
-		$response = $this->client->request(Request::METHOD_GET, 'customers/' . $customerId);
-
-		return $response->toArray();
+		$response = $this->request(Request::METHOD_GET, 'customers/' . $customerId);
 	}
 
 	private function request(string $method, string $url, array $options = []): array {
