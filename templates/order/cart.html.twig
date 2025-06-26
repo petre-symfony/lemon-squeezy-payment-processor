@@ -2,6 +2,11 @@
 
 {% block title %}Checkout!{% endblock %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+{% endblock %}
+
 {% block content %}
   <div class="flex justify-center">
     <div>
@@ -50,7 +55,7 @@
           <p>calculated at checkout</p>
         </div>
         <div class="mt-9">
-          <a class="w-[345px] flex ml-2 rounded-3xl border border-[#50272B] bg-[#4F272B] hover:bg-[#1C0000] shadow-inner poppins-bold text-white py-3 pl-5 uppercase"
+          <a class="lemonsqueezy-button w-[345px] flex ml-2 rounded-3xl border border-[#50272B] bg-[#4F272B] hover:bg-[#1C0000] shadow-inner poppins-bold text-white py-3 pl-5 uppercase"
              href="{{ path('app_order_checkout') }}"
           >
             Checkout with LemonSqueezy
