@@ -52,6 +52,8 @@ class UserController extends AbstractController {
 	public function account(LemonSqueezyApi $api, #[CurrentUser] User $user): Response {
 		$orders = $api->listOrders($user);
 
+		dd($orders);
+		
 		return $this->render('user/account.html.twig', [
 			'orders' => $orders
 		]);
