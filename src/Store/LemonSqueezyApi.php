@@ -5,6 +5,7 @@ namespace App\Store;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Target;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -121,5 +122,17 @@ final readonly class LemonSqueezyApi {
 		$response = $this->client->request(Request::METHOD_GET, 'customers/' . $customerId);
 
 		return $response->toArray();
+	}
+
+	private function request(string $method, string $url, array $options = []): array {
+		try {
+			$response = $this->client->request($method, $url, $options);
+			$data = $response->toArray();
+		} catch (ClientException $e) {
+			$data = $e->getResponse()->toArray(false);
+			dd($data);
+		}
+
+		return $data;
 	}
 }
