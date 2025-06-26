@@ -96,17 +96,29 @@ final readonly class LemonSqueezyApi {
 	}
 
 	public function listOrders(User $user): array {
+		$lsCustomerId = $user->getLsCustomerId();
+		if(!$lsCustomerId) {
+			return [];
+		}
+		$lsCustomer = $this->retrieveCustomer($lsCustomerId);
+
 		$response = $this->client->request(Request::METHOD_GET, 'orders', [
 			'query' => [
 				'filter' => [
 					'store_id' => $this->storeId,
-					'user_email' => $user->getEmail()
+					'user_email' => $lsCustomer['data']['attributes']['email']
 				],
 				'page' => [
 					'size' => 5
 				]
 			]
 		]);
+
+		return $response->toArray();
+	}
+
+	public function retrieveCustomer(string $customerId): array {
+		$response = $this->client->request(Request::METHOD_GET, 'customers/' . $customerId);
 
 		return $response->toArray();
 	}
