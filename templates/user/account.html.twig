@@ -31,16 +31,16 @@
           {% for order in orders.data %}
             <tr class="hover:bg-gray-50 text-lg poppins-regular">
               <td class="px-6 py-4">
-                Order
+                #{{ order.attributes.order_number }}
               </td>
               <td class="px-6 py-4">
-                Date
+                {{ order.attributes.created_at|date('d M Y, H:i') }}
               </td>
               <td class="px-6 py-4">
-                Amount
+                {{ order.attributes.total_formatted }}
               </td>
               <td class="flex items-center px-6 py-4 text-sm">
-                <a href="#view" target="_blank" class="uppercase rounded-[60px] border-2 border-[#50272B] bg-white hover:bg-slate-100 shadow-inner poppins-bold py-1 px-4">View</a>
+                <a href="{{ order.attributes.urls.receipt }}" target="_blank" class="uppercase rounded-[60px] border-2 border-[#50272B] bg-white hover:bg-slate-100 shadow-inner poppins-bold py-1 px-4">View</a>
               </td>
             </tr>
           {% endfor %}
