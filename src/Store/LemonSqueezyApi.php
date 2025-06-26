@@ -94,4 +94,17 @@ final readonly class LemonSqueezyApi {
 
 		return $lsStore['data']['attributes']['url'];
 	}
+
+	public function listOrders(User $user): array {
+		$response = $this->client->request(Request::METHOD_GET, 'orders', [
+			'query' => [
+				'filter' => [
+					'store_id' => $this->storeId,
+					'user_email' => $user->getEmail()
+				]
+			]
+		]);
+
+		return $response->toArray();
+	}
 }
