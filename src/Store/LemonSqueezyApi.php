@@ -82,8 +82,6 @@ final readonly class LemonSqueezyApi {
 			]
 		]);
 
-		dd($response->getContent(false));
-
 		$lsCheckout = $response->toArray();
 
 		return $lsCheckout['data']['attributes']['url'];
@@ -130,7 +128,29 @@ final readonly class LemonSqueezyApi {
 			$data = $response->toArray();
 		} catch (ClientException $e) {
 			$data = $e->getResponse()->toArray(false);
-			dd($data);
+			// dd($data);
+
+			$mainErrorMessage = 'LS API Error:';
+
+			$error = $data['errors'][0] ?? null;
+			if($error){
+				if (isset($error['status'])) {
+					$mainErrorMessage .= ' ' . $error['status'];
+				}
+				if (isset($error['title'])) {
+					$mainErrorMessage .= ' ' . $error['title'];
+				}
+				if (isset($error['detail'])) {
+					$mainErrorMessage .= ' ' . $error['detail'];
+				}
+				if (isset($error['source']['pointer'])) {
+					$mainErrorMessage .= sprintf(' (at path "%s")', $error['source']['pointer']);
+				}
+			} else {
+				$mainErrorMessage .= $e->getResponse()->getContent(false);
+			}
+
+			throw new \Exception($mainErrorMessage, 0, $e);
 		}
 
 		return $data;
