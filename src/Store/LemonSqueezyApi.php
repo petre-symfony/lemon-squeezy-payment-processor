@@ -101,6 +101,9 @@ final readonly class LemonSqueezyApi {
 				'filter' => [
 					'store_id' => $this->storeId,
 					'user_email' => $user->getEmail()
+				],
+				'page' => [
+					'size' => 5
 				]
 			]
 		]);
