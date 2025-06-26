@@ -59,7 +59,7 @@ final readonly class LemonSqueezyApi {
 		$attributes['product_options']['redirect_url'] =
 			$this->urlGenerator->generate('app_order_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-		$response = $this->client->request(Request::METHOD_POST, 'checkouts', [
+		$response = $this->request(Request::METHOD_POST, 'checkouts', [
 			'json' => [
 				'data' => [
 					'type' => 'checkouts',
