@@ -90,7 +90,7 @@ class OrderController extends AbstractController {
 		#[CurrentUser] User $user
 	): Response {
 		return $this->json([
-			'targetUrl' => $lsApi->createCheckoutUrl($user)
+			'targetUrl' => $lsApi->createCheckoutUrl($user, true)
 		]);
 	}
 }
