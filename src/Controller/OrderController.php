@@ -102,6 +102,17 @@ class OrderController extends AbstractController {
 		EntityManagerInterface $entityManager,
 		#[CurrentUser] User $user
 	): Response {
+		$userId = $request->request->get('userId');
+		if ($userId !== (string) $user->getId()) {
+			throw $this->createAccessDeniedException(
+				sprintf(
+					'Current user ID "%s" does not match the user ID "%s" of the order',
+					$user->getId(),
+					$userId
+				)
+			);
+		}
+
 		$lsCustomerId = $request->request->get('lsCustomerId');
 		$user->setLsCustomerId($lsCustomerId);
 
