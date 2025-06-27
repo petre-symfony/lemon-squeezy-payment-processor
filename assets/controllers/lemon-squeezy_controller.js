@@ -5,7 +5,17 @@ export default class extends Controller {
     checkoutCreateUrl: String
   }
 
-  connect() {}
+  connect() {
+    let script = window.document.querySelector('script[src="https://app.lemonsqueezy.com/js/lemon.js"]')
+    if (!script) {
+      script = window.document.createElement('script')
+      script.src = 'https://app.lemonsqueezy.com/js/lemon.js'
+      script.defer = true
+
+      window.document.head.appendChild(script)
+    }
+  }
+
   openOverlay(e){
     e.preventDefault()
 
