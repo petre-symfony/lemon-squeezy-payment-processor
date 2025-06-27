@@ -23,8 +23,7 @@ export default class extends Controller {
       window.LemonSqueezy.Setup({
         eventHandler: (data) => {
           if (data.event === 'Checkout.Success') {
-            console.log(data);
-            const lsCustomerId = data.data.customer_id
+            const lsCustomerId = data.data.order.data.attributes.customer_id
             this.#handleCheckout(lsCustomerId)
           }
         }
@@ -46,7 +45,6 @@ export default class extends Controller {
       }
     })
       .then(response => {
-        console.log(response)
         if(!response.ok) {
           throw new Error("Network response was not ok " + response.statusText)
         }
