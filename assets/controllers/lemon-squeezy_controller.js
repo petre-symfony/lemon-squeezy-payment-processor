@@ -77,6 +77,27 @@ export default class extends Controller {
   }
 
   #handleCheckout(lsCustomerId) {
+    fetch(this.checkoutHandleUrlValue, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        lsCustomerId: lsCustomerId
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText)
+        }
 
+        return response.json()
+      })
+      .then(data => {
+        //Nothing to do
+      })
+      .catch(error => {
+        console.error('Fetch error:', error)
+      })
   }
 }
