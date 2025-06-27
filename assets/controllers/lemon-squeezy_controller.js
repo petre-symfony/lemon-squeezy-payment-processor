@@ -10,6 +10,7 @@ export default class extends Controller {
     e.preventDefault()
 
     const linkEl = e.currentTarget
+    this.#disableLink(linkEl)
 
     fetch(this.checkoutCreateUrlValue, {
       method: 'POST',
@@ -26,9 +27,25 @@ export default class extends Controller {
       })
       .then(data => {
         window.LemonSqueezy.Url.Open(data.targetUrl)
+
+        this.#enableLink(linkEl)
       })
       .catch(error => {
         console.error('Fetch error: ', error)
+
+        this.#enableLink(linkEl)
       })
+    }
+
+  #disableLink(link) {
+    link.classList.add('disabled')
+    link.style.pointerEvents = 'none'
+    link.style.opacity = '0.5'
+  }
+
+  #enableLink(link) {
+    link.classList.remove('disabled')
+    link.style.pointerEvents = 'auto'
+    link.style.opacity = '1'
   }
 }
