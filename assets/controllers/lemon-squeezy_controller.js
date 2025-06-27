@@ -2,7 +2,8 @@ import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static values = {
-    checkoutCreateUrl: String
+    checkoutCreateUrl: String,
+    checkoutHandleUrl: String
   }
 
   connect() {
