@@ -34,7 +34,7 @@ export default class extends Controller {
           throw new Error("Network response was not ok " + response.statusText)
         }
         if (response.redirected) {
-          window.location.href = response.url
+          window.location.href = response.url + '?_target_path=' + window.location.pathname
 
           //stop further execution
           return Promise.reject('User is not authenticated')
