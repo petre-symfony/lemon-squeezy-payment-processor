@@ -76,6 +76,6 @@ export default class extends Controller {
   }
 
   #handleCheckout(lsCustomerId) {
-    
+
   }
 }
