@@ -16,14 +16,17 @@ export default class extends Controller {
       window.document.head.appendChild(script)
     }
 
-    window.LemonSqueezy.Setup({
-      eventHandler: (data) => {
-        if (data.event === 'Checkout.Success') {
-          const lsCustomerId = data.data.customer_id
-          this.#handleCheckout(lsCustomerId)
+    script.addEventListener('load', () => {
+      window.LemonSqueezy.Setup({
+        eventHandler: (data) => {
+          if (data.event === 'Checkout.Success') {
+            const lsCustomerId = data.data.customer_id
+            this.#handleCheckout(lsCustomerId)
+          }
         }
-      }
+      })
     })
+
   }
 
   openOverlay(e){
