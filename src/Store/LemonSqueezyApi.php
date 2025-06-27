@@ -34,6 +34,7 @@ final readonly class LemonSqueezyApi {
 		$attributes['checkout_data']['name'] = $user->getFirstName();
 
 		$attributes['checkout_data']['custom']['user_id'] = (string) $user->getId();
+		$attributes['checkout_options']['embed'] = true;
 
 		if (count($products) === 1) {
 			$attributes['checkout_data']['variant_quantities'] = [
