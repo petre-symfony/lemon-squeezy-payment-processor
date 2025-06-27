@@ -29,8 +29,15 @@ export default class extends Controller {
       }
     })
       .then(response => {
+        console.log(response)
         if(!response.ok) {
           throw new Error("Network response was not ok " + response.statusText)
+        }
+        if (response.redirected) {
+          window.location.href = response.url
+
+          //stop further execution
+          return Promise.reject('User is not authenticated')
         }
 
         return response.json()
