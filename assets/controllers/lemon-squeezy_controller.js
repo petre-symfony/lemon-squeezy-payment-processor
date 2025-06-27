@@ -14,6 +14,15 @@ export default class extends Controller {
 
       window.document.head.appendChild(script)
     }
+
+    window.LemonSqueezy.Setup({
+      eventHandler: (data) => {
+        if (data.event === 'Checkout.Success') {
+          const lsCustomerId = data.data.customer_id
+          this.#handleCheckout(lsCustomerId)
+        }
+      }
+    })
   }
 
   openOverlay(e){
@@ -64,5 +73,9 @@ export default class extends Controller {
     link.classList.remove('disabled')
     link.style.pointerEvents = 'auto'
     link.style.opacity = '1'
+  }
+
+  #handleCheckout(lsCustomerId) {
+    
   }
 }
