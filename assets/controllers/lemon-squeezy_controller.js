@@ -17,9 +17,13 @@ export default class extends Controller {
     }
 
     script.addEventListener('load', () => {
+      //The script was loaded, now you can safely call createLemonSqueezy
+      window.createLemonSqueezy();
+
       window.LemonSqueezy.Setup({
         eventHandler: (data) => {
           if (data.event === 'Checkout.Success') {
+            console.log(data);
             const lsCustomerId = data.data.customer_id
             this.#handleCheckout(lsCustomerId)
           }
